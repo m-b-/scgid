@@ -18,14 +18,14 @@ The DBG compilation flag:
 
 # Protocol variation
 We relax the protocol on both the position of the
-CONTENT_LENGTH variable and the value of the SCGI one.
+CONTENT_LENGTH variable and the value of the SCGI.
 We require SCGI headers to fit in at most BUFSIZ bytes
 (8192 on a modern 32bits Linux distribution).
 
 Protocol does not define communication between SCGI
 dæmon and web program. We use the following convention:
 
-- scgid writes list of SCGI variables (`NAME=value\n`) on program's
+- scgid writes list of SCGI variables `NAME=value\n` on program's
   stdin followed by the string `EOF\n`, and finally the content
   of the SCGI request (of length CONTENT_LENGTH).
 - scgid stops sending data from program to webserver upon reception
