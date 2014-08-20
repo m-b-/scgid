@@ -25,11 +25,11 @@ We require SCGI headers to fit in at most BUFSIZ bytes
 Protocol does not define communication between SCGI
 dæmon and web program. We use the following convention:
 
-- scgid writes list of SCGI variables ("NAME=value\n") on program's
-  stdin followed by the string "EOF\n", and finally the content
+- scgid writes list of SCGI variables (`NAME=value\n`) on program's
+  stdin followed by the string `EOF\n`, and finally the content
   of the SCGI request (of length CONTENT_LENGTH).
 - scgid stops sending data from program to webserver upon reception
-  of "</html>" and subsequently close the socket.
+  of `</html>` and subsequently close the socket.
 
 # Deployment example
 The hw.cgi shell script demonstrates basic behavior.
