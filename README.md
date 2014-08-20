@@ -1,4 +1,4 @@
-= Description
+# Description
 The associated code is an Simple CGI dæmon implementation
 for Unix. Protocol description can be find in scgi.txt[1].
 Default port is 9000.
@@ -16,7 +16,7 @@ The DBG compilation flag:
 - outputs informations on incoming connection;
 - set SO_REUSEADDR flag on socket;
 
-= Protocol variation
+# Protocol variation
 We relax the protocol on both the position of the
 CONTENT_LENGTH variable and the value of the SCGI one.
 We require SCGI headers to fit in at most BUFSIZ bytes
@@ -31,7 +31,7 @@ dæmon and web program. We use the following convention:
 - scgid stops sending data from program to webserver upon reception
   of "</html>" and subsequently close the socket.
 
-= Deployment example
+# Deployment example
 The hw.cgi shell script demonstrates basic behavior.
 
 The following configuration file may be used for
