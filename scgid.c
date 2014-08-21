@@ -67,9 +67,9 @@ parseheaders(char *s, int n, int in)
 				clen = clen*10 + (q[j] - '0');
 
 		write(in, p, strlen(p));
-		write(in, "=", 2);
+		write(in, "=", 1);
 		write(in, q, strlen(q));
-		write(in, "\n", 2);
+		write(in, "\n", 1);
 #ifdef DBG
 		fprintf(stderr, "%s=%s\n", p, q);
 #endif
