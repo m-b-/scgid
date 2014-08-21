@@ -102,7 +102,7 @@ doscgi(int s, int in, int out)
 	for (i = 0; i < 10; i++) {
 		c = fgetc(f);
 		if (c == EOF)
-			return 0;
+			return;
 		if (c == ':')
 			break;
 		len = len*10 + ((char)c - '0');
@@ -234,7 +234,7 @@ main(int argc, char *argv[])
 			perror("inet_ntop");
 #endif
 
-		doscgi(c, in[1], out[0])
+		doscgi(c, in[1], out[0]);
 
 		close(c);
 #if DBG
