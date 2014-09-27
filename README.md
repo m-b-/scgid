@@ -27,7 +27,8 @@ dæmon and web program. We use the following convention:
 
 - scgid writes list of SCGI variables `NAME=value\n` on program's
   stdin followed by the string `EOF\n`, and finally the content
-  of the SCGI request (of length CONTENT_LENGTH).
+  of the SCGI request (of length CONTENT_LENGTH). An additional
+  `\n` is written at the end of the content.
 - scgid stops sending data from program to webserver upon reception
   of `</html>` and subsequently close the socket.
 

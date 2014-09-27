@@ -81,11 +81,16 @@ parseheaders(char *s, int n, int in)
 	return scgi ? clen : -1;
 }
 
+/* const */
+char *htmlend = "</html>";
+int lhtmlend = 7; /* strlen(htmlend) */
+
 void
 doscgi(int s, int in, int out)
 {
 	char buf[BUFSIZ];
 	int len, c, i;
+	char ov[16];	/* overlap big enough */
 	int clen;
 	FILE *f;
 	int n;
@@ -137,8 +142,20 @@ doscgi(int s, int in, int out)
 		write(in, buf, sizeof(buf));
 		clen -= sizeof(buf);
 	}
+	memset(buf, '\0', sizeof(buf));
 	fread(buf, 1, clen, f);
 	write(in, buf, clen);
+	if (buf[clen-1] != '\n')
+		write(in, "\n", 1);
+
+	/*
+	 * We terminate connection upon
+	 * reading htmlend (ie. </html>). It
+	 * may happen that htmlend is
+	 * break on two reads. We thus check
+	 * for an overlapping htmlend using ov.
+	 */
+	memset(ov, '\n', sizeof(ov));
 
 	/* fetch data from program */
 	for (;;) {
@@ -146,8 +163,14 @@ doscgi(int s, int in, int out)
 		if (n <= 0)
 			break;
 		write(s, buf, n);
-		if (strstr(buf, "</html>"))
+		if (strstr(buf, htmlend))
 			break;
+
+		/* look for a splitted htmlend */
+		strncat(ov, buf+n-lhtmlend, lhtmlend);
+		if (strstr(ov, htmlend))
+			break;
+		strncpy(ov, buf+n-lhtmlend, lhtmlend);
 	}
 }
 
@@ -155,8 +178,8 @@ int
 main(int argc, char *argv[])
 {
 	struct sockaddr_in sin, cin;
-	int in[2], out[2];
 	char cip[INET_ADDRSTRLEN];
+	int in[2], out[2];
 	socklen_t clen;
 	char **cmd;
 	int port;
